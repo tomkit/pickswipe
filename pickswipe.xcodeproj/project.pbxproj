@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4106E5FF16E5D649006D4236 /* Icon-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 4106E5FE16E5D649006D4236 /* Icon-large.png */; };
+		4106E60516E5D921006D4236 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4106E60416E5D921006D4236 /* ShareViewController.m */; };
+		41228C1516E5BAA6008B90EF /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41228C1416E5BAA6008B90EF /* FacebookSDK.framework */; };
+		41228C1716E5C9EA008B90EF /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41228C1616E5C9EA008B90EF /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		41228C1916E5C9F1008B90EF /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41228C1816E5C9F1008B90EF /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		41228C1B16E5C9FD008B90EF /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41228C1A16E5C9FD008B90EF /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		41228C2116E5CC53008B90EF /* action-eating.png in Resources */ = {isa = PBXBuildFile; fileRef = 41228C1D16E5CC53008B90EF /* action-eating.png */; };
+		41228C2216E5CC53008B90EF /* action-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 41228C1E16E5CC53008B90EF /* action-location.png */; };
+		41228C2316E5CC53008B90EF /* action-people.png in Resources */ = {isa = PBXBuildFile; fileRef = 41228C1F16E5CC53008B90EF /* action-people.png */; };
+		41228C2416E5CC53008B90EF /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 41228C2016E5CC53008B90EF /* facebook.png */; };
+		413A900916D19E4B002F22A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A900816D19E4B002F22A7 /* UIKit.framework */; };
+		413A900B16D19E4B002F22A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A900A16D19E4B002F22A7 /* Foundation.framework */; };
+		413A900D16D19E4B002F22A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A900C16D19E4B002F22A7 /* CoreGraphics.framework */; };
+		413A901316D19E4B002F22A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 413A901116D19E4B002F22A7 /* InfoPlist.strings */; };
+		413A901516D19E4B002F22A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 413A901416D19E4B002F22A7 /* main.m */; };
+		413A901916D19E4B002F22A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 413A901816D19E4B002F22A7 /* AppDelegate.m */; };
+		413A901B16D19E4B002F22A7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 413A901A16D19E4B002F22A7 /* Default.png */; };
+		413A901D16D19E4B002F22A7 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 413A901C16D19E4B002F22A7 /* Default@2x.png */; };
+		413A901F16D19E4B002F22A7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 413A901E16D19E4B002F22A7 /* Default-568h@2x.png */; };
+		413A902216D19E4B002F22A7 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 413A902016D19E4B002F22A7 /* MainStoryboard_iPhone.storyboard */; };
+		413A902516D19E4B002F22A7 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 413A902316D19E4B002F22A7 /* MainStoryboard_iPad.storyboard */; };
+		413A902816D19E4B002F22A7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413A902716D19E4B002F22A7 /* ViewController.m */; };
+		413A903016D19E4B002F22A7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A902F16D19E4B002F22A7 /* SenTestingKit.framework */; };
+		413A903116D19E4B002F22A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A900816D19E4B002F22A7 /* UIKit.framework */; };
+		413A903216D19E4B002F22A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A900A16D19E4B002F22A7 /* Foundation.framework */; };
+		413A903A16D19E4B002F22A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 413A903816D19E4B002F22A7 /* InfoPlist.strings */; };
+		413A903D16D19E4B002F22A7 /* helloworldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 413A903C16D19E4B002F22A7 /* helloworldTests.m */; };
+		41608A4116E6BB010098423B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41608A4016E6BB010098423B /* LoginViewController.m */; };
+		417E59FB16DE96AE000DF886 /* DraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 417E59FA16DE96AE000DF886 /* DraggableView.m */; };
+		41D0C0E016EBC8940015F388 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D0C0DF16EBC8940015F388 /* Constants.m */; };
+		41E0114916DFE275005F4BD3 /* Icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E0114816DFE275005F4BD3 /* Icon-small.png */; };
+		41E0114D16DFEEB6005F4BD3 /* title@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E0114C16DFEEB6005F4BD3 /* title@2x.png */; };
+		41F915B816DF367B000F4F8E /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F915B716DF367B000F4F8E /* title.png */; };
+		41F915BA16DF3839000F4F8E /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F915B916DF3839000F4F8E /* button.png */; };
+		41F915BC16DF47F8000F4F8E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F915BB16DF47F8000F4F8E /* Icon.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		413A903316D19E4B002F22A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 413A8FFD16D19E4B002F22A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 413A900416D19E4B002F22A7;
+			remoteInfo = helloworld;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4106E5FE16E5D649006D4236 /* Icon-large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-large.png"; sourceTree = "<group>"; };
+		4106E60316E5D920006D4236 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		4106E60416E5D921006D4236 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		41228C1416E5BAA6008B90EF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		41228C1616E5C9EA008B90EF /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		41228C1816E5C9F1008B90EF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		41228C1A16E5C9FD008B90EF /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		41228C1D16E5CC53008B90EF /* action-eating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "action-eating.png"; sourceTree = "<group>"; };
+		41228C1E16E5CC53008B90EF /* action-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "action-location.png"; sourceTree = "<group>"; };
+		41228C1F16E5CC53008B90EF /* action-people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "action-people.png"; sourceTree = "<group>"; };
+		41228C2016E5CC53008B90EF /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
+		413A900516D19E4B002F22A7 /* pickswipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pickswipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		413A900816D19E4B002F22A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		413A900A16D19E4B002F22A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		413A900C16D19E4B002F22A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		413A901016D19E4B002F22A7 /* pickswipe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "pickswipe-Info.plist"; sourceTree = "<group>"; };
+		413A901216D19E4B002F22A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		413A901416D19E4B002F22A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		413A901616D19E4B002F22A7 /* pickswipe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "pickswipe-Prefix.pch"; sourceTree = "<group>"; };
+		413A901716D19E4B002F22A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		413A901816D19E4B002F22A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		413A901A16D19E4B002F22A7 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		413A901C16D19E4B002F22A7 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		413A901E16D19E4B002F22A7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		413A902116D19E4B002F22A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		413A902416D19E4B002F22A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		413A902616D19E4B002F22A7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		413A902716D19E4B002F22A7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		413A902E16D19E4B002F22A7 /* pickswipeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pickswipeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		413A902F16D19E4B002F22A7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		413A903716D19E4B002F22A7 /* pickswipeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "pickswipeTests-Info.plist"; sourceTree = "<group>"; };
+		413A903916D19E4B002F22A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		413A903B16D19E4B002F22A7 /* helloworldTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = helloworldTests.h; sourceTree = "<group>"; };
+		413A903C16D19E4B002F22A7 /* helloworldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = helloworldTests.m; sourceTree = "<group>"; };
+		41608A3F16E6BB010098423B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		41608A4016E6BB010098423B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		417E59F916DE96AE000DF886 /* DraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraggableView.h; sourceTree = "<group>"; };
+		417E59FA16DE96AE000DF886 /* DraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraggableView.m; sourceTree = "<group>"; };
+		41D0C0DE16EBC8940015F388 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		41D0C0DF16EBC8940015F388 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		41E0114816DFE275005F4BD3 /* Icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-small.png"; sourceTree = "<group>"; };
+		41E0114C16DFEEB6005F4BD3 /* title@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "title@2x.png"; sourceTree = "<group>"; };
+		41F915B716DF367B000F4F8E /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
+		41F915B916DF3839000F4F8E /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
+		41F915BB16DF47F8000F4F8E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		413A900216D19E4B002F22A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41228C1B16E5C9FD008B90EF /* Social.framework in Frameworks */,
+				41228C1916E5C9F1008B90EF /* AdSupport.framework in Frameworks */,
+				41228C1716E5C9EA008B90EF /* Accounts.framework in Frameworks */,
+				413A900916D19E4B002F22A7 /* UIKit.framework in Frameworks */,
+				413A900B16D19E4B002F22A7 /* Foundation.framework in Frameworks */,
+				413A900D16D19E4B002F22A7 /* CoreGraphics.framework in Frameworks */,
+				41228C1516E5BAA6008B90EF /* FacebookSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		413A902A16D19E4B002F22A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				413A903016D19E4B002F22A7 /* SenTestingKit.framework in Frameworks */,
+				413A903116D19E4B002F22A7 /* UIKit.framework in Frameworks */,
+				413A903216D19E4B002F22A7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		41228C1C16E5CC53008B90EF /* images */ = {
+			isa = PBXGroup;
+			children = (
+				41228C1D16E5CC53008B90EF /* action-eating.png */,
+				41228C1E16E5CC53008B90EF /* action-location.png */,
+				41228C1F16E5CC53008B90EF /* action-people.png */,
+				41228C2016E5CC53008B90EF /* facebook.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		413A8FFC16D19E4B002F22A7 = {
+			isa = PBXGroup;
+			children = (
+				413A900E16D19E4B002F22A7 /* pickswipe */,
+				413A903516D19E4B002F22A7 /* pickswipeTests */,
+				413A900716D19E4B002F22A7 /* Frameworks */,
+				413A900616D19E4B002F22A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		413A900616D19E4B002F22A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				413A900516D19E4B002F22A7 /* pickswipe.app */,
+				413A902E16D19E4B002F22A7 /* pickswipeTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		413A900716D19E4B002F22A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				41228C1A16E5C9FD008B90EF /* Social.framework */,
+				41228C1816E5C9F1008B90EF /* AdSupport.framework */,
+				41228C1616E5C9EA008B90EF /* Accounts.framework */,
+				41228C1416E5BAA6008B90EF /* FacebookSDK.framework */,
+				413A900816D19E4B002F22A7 /* UIKit.framework */,
+				413A900A16D19E4B002F22A7 /* Foundation.framework */,
+				413A900C16D19E4B002F22A7 /* CoreGraphics.framework */,
+				413A902F16D19E4B002F22A7 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		413A900E16D19E4B002F22A7 /* pickswipe */ = {
+			isa = PBXGroup;
+			children = (
+				413A901716D19E4B002F22A7 /* AppDelegate.h */,
+				413A901816D19E4B002F22A7 /* AppDelegate.m */,
+				413A902016D19E4B002F22A7 /* MainStoryboard_iPhone.storyboard */,
+				413A902316D19E4B002F22A7 /* MainStoryboard_iPad.storyboard */,
+				413A902616D19E4B002F22A7 /* ViewController.h */,
+				413A902716D19E4B002F22A7 /* ViewController.m */,
+				417E59F916DE96AE000DF886 /* DraggableView.h */,
+				417E59FA16DE96AE000DF886 /* DraggableView.m */,
+				413A900F16D19E4B002F22A7 /* Supporting Files */,
+				4106E60316E5D920006D4236 /* ShareViewController.h */,
+				4106E60416E5D921006D4236 /* ShareViewController.m */,
+				41608A3F16E6BB010098423B /* LoginViewController.h */,
+				41608A4016E6BB010098423B /* LoginViewController.m */,
+				41D0C0DE16EBC8940015F388 /* Constants.h */,
+				41D0C0DF16EBC8940015F388 /* Constants.m */,
+			);
+			name = pickswipe;
+			path = helloworld;
+			sourceTree = "<group>";
+		};
+		413A900F16D19E4B002F22A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				41228C1C16E5CC53008B90EF /* images */,
+				41E0114C16DFEEB6005F4BD3 /* title@2x.png */,
+				4106E5FE16E5D649006D4236 /* Icon-large.png */,
+				41E0114816DFE275005F4BD3 /* Icon-small.png */,
+				41F915BB16DF47F8000F4F8E /* Icon.png */,
+				41F915B916DF3839000F4F8E /* button.png */,
+				41F915B716DF367B000F4F8E /* title.png */,
+				413A901016D19E4B002F22A7 /* pickswipe-Info.plist */,
+				413A901116D19E4B002F22A7 /* InfoPlist.strings */,
+				413A901416D19E4B002F22A7 /* main.m */,
+				413A901616D19E4B002F22A7 /* pickswipe-Prefix.pch */,
+				413A901A16D19E4B002F22A7 /* Default.png */,
+				413A901C16D19E4B002F22A7 /* Default@2x.png */,
+				413A901E16D19E4B002F22A7 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		413A903516D19E4B002F22A7 /* pickswipeTests */ = {
+			isa = PBXGroup;
+			children = (
+				413A903B16D19E4B002F22A7 /* helloworldTests.h */,
+				413A903C16D19E4B002F22A7 /* helloworldTests.m */,
+				413A903616D19E4B002F22A7 /* Supporting Files */,
+			);
+			name = pickswipeTests;
+			path = helloworldTests;
+			sourceTree = "<group>";
+		};
+		413A903616D19E4B002F22A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				413A903716D19E4B002F22A7 /* pickswipeTests-Info.plist */,
+				413A903816D19E4B002F22A7 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		413A900416D19E4B002F22A7 /* pickswipe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 413A904016D19E4B002F22A7 /* Build configuration list for PBXNativeTarget "pickswipe" */;
+			buildPhases = (
+				413A900116D19E4B002F22A7 /* Sources */,
+				413A900216D19E4B002F22A7 /* Frameworks */,
+				413A900316D19E4B002F22A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pickswipe;
+			productName = helloworld;
+			productReference = 413A900516D19E4B002F22A7 /* pickswipe.app */;
+			productType = "com.apple.product-type.application";
+		};
+		413A902D16D19E4B002F22A7 /* pickswipeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 413A904316D19E4B002F22A7 /* Build configuration list for PBXNativeTarget "pickswipeTests" */;
+			buildPhases = (
+				413A902916D19E4B002F22A7 /* Sources */,
+				413A902A16D19E4B002F22A7 /* Frameworks */,
+				413A902B16D19E4B002F22A7 /* Resources */,
+				413A902C16D19E4B002F22A7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				413A903416D19E4B002F22A7 /* PBXTargetDependency */,
+			);
+			name = pickswipeTests;
+			productName = helloworldTests;
+			productReference = 413A902E16D19E4B002F22A7 /* pickswipeTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		413A8FFD16D19E4B002F22A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Thomas Chen";
+			};
+			buildConfigurationList = 413A900016D19E4B002F22A7 /* Build configuration list for PBXProject "pickswipe" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 413A8FFC16D19E4B002F22A7;
+			productRefGroup = 413A900616D19E4B002F22A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				413A900416D19E4B002F22A7 /* pickswipe */,
+				413A902D16D19E4B002F22A7 /* pickswipeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		413A900316D19E4B002F22A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				413A901316D19E4B002F22A7 /* InfoPlist.strings in Resources */,
+				413A901B16D19E4B002F22A7 /* Default.png in Resources */,
+				413A901D16D19E4B002F22A7 /* Default@2x.png in Resources */,
+				413A901F16D19E4B002F22A7 /* Default-568h@2x.png in Resources */,
+				413A902216D19E4B002F22A7 /* MainStoryboard_iPhone.storyboard in Resources */,
+				413A902516D19E4B002F22A7 /* MainStoryboard_iPad.storyboard in Resources */,
+				41F915B816DF367B000F4F8E /* title.png in Resources */,
+				41F915BA16DF3839000F4F8E /* button.png in Resources */,
+				41F915BC16DF47F8000F4F8E /* Icon.png in Resources */,
+				41E0114916DFE275005F4BD3 /* Icon-small.png in Resources */,
+				41E0114D16DFEEB6005F4BD3 /* title@2x.png in Resources */,
+				41228C2116E5CC53008B90EF /* action-eating.png in Resources */,
+				41228C2216E5CC53008B90EF /* action-location.png in Resources */,
+				41228C2316E5CC53008B90EF /* action-people.png in Resources */,
+				41228C2416E5CC53008B90EF /* facebook.png in Resources */,
+				4106E5FF16E5D649006D4236 /* Icon-large.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		413A902B16D19E4B002F22A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				413A903A16D19E4B002F22A7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		413A902C16D19E4B002F22A7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		413A900116D19E4B002F22A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				413A901516D19E4B002F22A7 /* main.m in Sources */,
+				413A901916D19E4B002F22A7 /* AppDelegate.m in Sources */,
+				413A902816D19E4B002F22A7 /* ViewController.m in Sources */,
+				417E59FB16DE96AE000DF886 /* DraggableView.m in Sources */,
+				4106E60516E5D921006D4236 /* ShareViewController.m in Sources */,
+				41608A4116E6BB010098423B /* LoginViewController.m in Sources */,
+				41D0C0E016EBC8940015F388 /* Constants.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		413A902916D19E4B002F22A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				413A903D16D19E4B002F22A7 /* helloworldTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		413A903416D19E4B002F22A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 413A900416D19E4B002F22A7 /* pickswipe */;
+			targetProxy = 413A903316D19E4B002F22A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		413A901116D19E4B002F22A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				413A901216D19E4B002F22A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		413A902016D19E4B002F22A7 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				413A902116D19E4B002F22A7 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		413A902316D19E4B002F22A7 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				413A902416D19E4B002F22A7 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		413A903816D19E4B002F22A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				413A903916D19E4B002F22A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		413A903E16D19E4B002F22A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		413A903F16D19E4B002F22A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		413A904116D19E4B002F22A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../FacebookSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "helloworld/pickswipe-Prefix.pch";
+				INFOPLIST_FILE = "helloworld/pickswipe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
+				PRODUCT_NAME = pickswipe;
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		413A904216D19E4B002F22A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../FacebookSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "helloworld/pickswipe-Prefix.pch";
+				INFOPLIST_FILE = "helloworld/pickswipe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
+				PRODUCT_NAME = pickswipe;
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		413A904416D19E4B002F22A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/helloworld.app/helloworld";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "helloworld/helloworld-Prefix.pch";
+				INFOPLIST_FILE = "helloworldTests/pickswipeTests-Info.plist";
+				PRODUCT_NAME = pickswipeTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		413A904516D19E4B002F22A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/helloworld.app/helloworld";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "helloworld/helloworld-Prefix.pch";
+				INFOPLIST_FILE = "helloworldTests/pickswipeTests-Info.plist";
+				PRODUCT_NAME = pickswipeTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		413A900016D19E4B002F22A7 /* Build configuration list for PBXProject "pickswipe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				413A903E16D19E4B002F22A7 /* Debug */,
+				413A903F16D19E4B002F22A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		413A904016D19E4B002F22A7 /* Build configuration list for PBXNativeTarget "pickswipe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				413A904116D19E4B002F22A7 /* Debug */,
+				413A904216D19E4B002F22A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		413A904316D19E4B002F22A7 /* Build configuration list for PBXNativeTarget "pickswipeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				413A904416D19E4B002F22A7 /* Debug */,
+				413A904516D19E4B002F22A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 413A8FFD16D19E4B002F22A7 /* Project object */;
+}
