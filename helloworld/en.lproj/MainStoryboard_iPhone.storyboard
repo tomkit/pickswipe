@@ -48,7 +48,7 @@
                                     <navigationItem id="Fg4-Fc-175"/>
                                 </items>
                             </navigationBar>
-                            <view contentMode="scaleToFill" id="ynu-Y9-g9Q">
+                            <view contentMode="scaleToFill" id="ynu-Y9-g9Q" customClass="FBProfilePictureView">
                                 <rect key="frame" x="20" y="99" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -70,6 +70,7 @@
                         <outlet property="imageView3" destination="RsK-Ki-J22" id="EaU-th-ZF0"/>
                         <outlet property="navigationBar" destination="BC6-qW-HSA" id="YeE-ba-lRc"/>
                         <outlet property="shareButton" destination="Ufu-8u-Mzk" id="fry-sI-Hj1"/>
+                        <outlet property="userProfileImage" destination="ynu-Y9-g9Q" id="HrD-s4-jWk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -188,7 +189,9 @@
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
+                <relationship kind="action" name="getNext:"/>
                 <relationship kind="action" name="shareClicked:"/>
+                <relationship kind="action" name="showGestureForSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
                 <relationship kind="action" name="showGestureForTapRecognizer:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="friendLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="imageView" candidateClass="DraggableView"/>

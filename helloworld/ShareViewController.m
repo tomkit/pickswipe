@@ -8,7 +8,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "ShareViewController.h"
-#import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "Constants.h"
 
@@ -37,6 +36,12 @@ NSString *ownId;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        NSLog(@"reg notif");
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self
+         selector:@selector(openSession)
+         name:OpenSessionNotification
+         object:nil];
     }
     return self;
 }
@@ -66,6 +71,8 @@ NSString *ownId;
      selector:@selector(sessionStateChanged:)
      name:SessionStateChangedNotification
      object:nil];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,7 +86,7 @@ NSString *ownId;
     [super viewWillAppear:animated];
     
     if (FBSession.activeSession.isOpen) {
-            NSLog(@"got in herE");
+//            NSLog(@"got in herE");
         [self populateUserDetails];
     }
 }
@@ -93,7 +100,7 @@ NSString *ownId;
 }
 
 - (void)loginFailed {
-    NSLog(@"login failed");
+//    NSLog(@"login failed");
 }
 
 -(void) setShareUrl:(NSString *)url {
@@ -111,13 +118,13 @@ NSString *ownId;
              if (!error) {
                  ownId = user.id;
                  [[NSNotificationCenter defaultCenter]
-                  postNotificationName:OwnIdStateChangeNotification
-                  object:nil];
+                  postNotificationName:OwnUserStateChangeNotification
+                  object:nil userInfo:user];
                  
 //                 NSLog(@"%lu", (unsigned long)self.selectedFriends.count);
                  if(self.selectedFriends.count > 0) {
                      NSDictionary<FBGraphUser> *friend1 = [self.selectedFriends objectAtIndex:0];
-                     NSLog(@"id:%@", friend1.id);
+//                     NSLog(@"id:%@", friend1.id);
                      self.userProfileImage.profileID = friend1.id;
                      self.feedbackLabel.text = @"Sent to your friend!";
                      self.feedbackLabel.alpha = 1.0;
@@ -148,11 +155,11 @@ NSString *ownId;
     [self populateUserDetails];
     [self sendToFriend];
     [self dismissModalViewControllerAnimated:YES];
-    NSLog(@"FB done");
+//    NSLog(@"FB done");
 }
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender{
-    NSLog(@"FB canceled");
+//    NSLog(@"FB canceled");
     self.feedbackLabel.alpha = 0.0;
     self.userProfileImage.alpha = 0.0;
     [self dismissModalViewControllerAnimated:YES];
@@ -167,13 +174,13 @@ NSString *ownId;
         [postURL appendString:@"http://"];
         [postURL appendString:SITE_DOMAIN];
         [postURL appendString:@"/ritelike/funny"];
-        NSLog(@"URL:%@", postURL);
+//        NSLog(@"URL:%@", postURL);
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
         
         NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:shareUrl, friend1.id, ownId, nil] forKeys:[NSArray arrayWithObjects:@"url", @"to_id", @"from_id", nil]];
         
-        NSLog(@"posting:%@", initialLogAsJSON);
+//        NSLog(@"posting:%@", initialLogAsJSON);
         
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
@@ -188,11 +195,11 @@ NSString *ownId;
         [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                    if(error) {
-                                       NSLog(@"error post");
+//                                       NSLog(@"error post");
                                     } else {
                                         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
    
-                                        NSLog(@"success post %@", responseString);
+//                                        NSLog(@"success post %@", responseString);
                                     }
                                }];
     }
@@ -205,7 +212,7 @@ NSString *ownId;
 
     switch (state) {
         case FBSessionStateOpen: {
-            NSLog(@"open state");
+//            NSLog(@"open state");
             if (!self.friendPickerController) {
                 
                 self.friendPickerController = [[FBFriendPickerViewController alloc]
@@ -231,7 +238,7 @@ NSString *ownId;
 //            [FBSession.activeSession closeAndClearTokenInformation];
             
 //            [self showLoginView];
-            NSLog(@"closed/error state");
+//            NSLog(@"closed/error state");
             break;
         default:
             break;
@@ -254,6 +261,7 @@ NSString *ownId;
 
 - (void)openSession
 {
+    NSLog(@"opensession");
     [FBSession openActiveSessionWithReadPermissions:nil
                                        allowLoginUI:YES
                                   completionHandler:
@@ -265,7 +273,7 @@ NSString *ownId;
 
 - (IBAction)emailClicked:(id)sender {
     NSString *htmlBody = @"";
-    NSLog(@"%@", shareUrl);
+//    NSLog(@"%@", shareUrl);
     NSString *currentImageURL = shareUrl;
     htmlBody = [htmlBody stringByAppendingString:currentImageURL];
     
@@ -291,7 +299,7 @@ NSString *ownId;
 //}
 
 - (void)sessionStateChanged:(NSNotification*)notification {
-    NSLog(@"session state changed");
+//    NSLog(@"session state changed");
     [self populateUserDetails];
 }
 

@@ -10,7 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 extern NSString *const SessionStateChangedNotification;
-extern NSString *const OwnIdStateChangeNotification;
+extern NSString *const OwnUserStateChangeNotification;
+extern NSString *const OpenSessionNotification;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

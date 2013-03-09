@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UILabel *friendLabel;
+//@property (weak, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
 
 @property (strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
 
@@ -54,6 +55,7 @@
 @synthesize navigationBar = _navigationBar;
 @synthesize shareButton = _shareButton;
 @synthesize friendLabel = _friendLabel;
+//@synthesize userProfileImage = _userProfileImage;
 
 DraggableView *imageView2;
 DraggableView *imageView;
@@ -70,7 +72,7 @@ UILabel *noOverlay2;
 NSString *currentImageURL;
 NSMutableArray *items;
 NSMutableArray *urls;
-NSString *ownId;
+NSDictionary<FBGraphUser> *ownUser;
 int TOP = 6;
 
 -(void) setupDraggableView:(DraggableView *)imageView {
@@ -144,8 +146,9 @@ int TOP = 6;
 }
 
 
-- (void)ownIdChanged:(NSNotification*)notification {
-    NSLog(@"ownId changed");
+- (void)ownUserChanged:(NSNotification*)notification {
+    ownUser = (NSDictionary <FBGraphUser>*)[notification userInfo];
+    NSLog(@"set own user");
 //    ownId = uid;
 }
 
@@ -156,8 +159,8 @@ int TOP = 6;
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
-     selector:@selector(ownIdChanged:)
-     name:OwnIdStateChangeNotification
+     selector:@selector(ownUserChanged:)
+     name:OwnUserStateChangeNotification
      object:nil];
     
     // Navigation Bar
@@ -229,6 +232,19 @@ int TOP = 6;
     self.friendLabel.alpha = 0.0;
     self.friendLabel.numberOfLines = 0;
 //    TOP = self.imageView.subviews.count-1;
+    
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        [FBSession openActiveSessionWithReadPermissions:nil
+                                           allowLoginUI:YES
+                                      completionHandler:
+         ^(FBSession *session,
+           FBSessionState state, NSError *error) {
+             NSLog(@"nohandler");
+         }];
+    } else {
+        // show login
+    }
+    
     
     if(items.count < 10) {
         [self getNext:nil];
@@ -408,16 +424,23 @@ int TOP = 6;
 
 - (IBAction)getNext:(id)sender {
     NSMutableString *url = [[NSMutableString alloc] init];
-    if(ownId) {
+    if(ownUser) {
         [url appendString:@"http://"];
         [url appendString:SITE_DOMAIN];
         [url appendString:@"/ritelike/funny?u_id="];
-        [url appendString:ownId];
+        [url appendString:ownUser.id];
+        [self innerGetNext:url];
     } else {
         [url appendString:@"http://"];
         [url appendString:SITE_DOMAIN];
         [url appendString:@"/ritelike/funny"];
+        [self innerGetNext:url];
+        
+        
     }
+}
+
+-(void) innerGetNext:(NSString *)url {
     // Request to get image URL
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
     [request setHTTPMethod:@"GET"];
@@ -432,13 +455,13 @@ int TOP = 6;
                 // do nothing
             } else {
                 NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableLeaves error: nil];
-                NSLog(@"datadict%@", JSON);
+//                NSLog(@"datadict%@", JSON);
 //                NSArray *argsArray = [[NSArray alloc] initWithArray:[dataDictionary objectForKey:@"args"]];
 //                NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:JSON];
                 
                 NSString *responseString = [JSON objectForKey:@"url"];
                 NSString *from = [JSON objectForKey:@"from_id"];
-                NSLog(@"from:%@", from);
+//                NSLog(@"from:%@", from);
 //                NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
                 // Request to get image data
@@ -493,11 +516,31 @@ int TOP = 6;
                 [urls removeObjectAtIndex:0];
                 
                 if((from_id = [urlObject objectForKey:@"from_id"])) {
-                    NSLog(@"Got from ID:%@", from_id);
-                    self.userProfileImage.profileID = from_id;
-                    self.friendLabel.text = @"From your friend!";
-                    self.userProfileImage.alpha = 1.0;
-                    self.friendLabel.alpha = 1.0;
+//                    NSLog(@"Got from ID:%@", from_id);
+                    if (FBSession.activeSession.isOpen) {
+                        [[FBRequest requestForMe] startWithCompletionHandler:
+                         ^(FBRequestConnection *connection,
+                           NSDictionary<FBGraphUser> *user,
+                           NSError *error) {
+                             
+                             if (!error) {
+                                 // TODO: make this more efficient
+//                                 for (NSDictionary<FBGraphUser> *friend in users) {
+//                                     NSLog(@"ids:%@",friend.id);
+//                                     if([friend.id isEqualToString:from_id]) {
+                                         self.userProfileImage.profileID = user.id;
+                                         self.friendLabel.text = @"From your friend!";
+                                         self.userProfileImage.alpha = 1.0;
+                                         self.friendLabel.alpha = 1.0;
+//                                     break;
+//                                     }
+//                                 }
+                                 
+
+                             }
+                         }];
+                    }
+                    
                 } else {
                     self.friendLabel.text = @"";
                     self.userProfileImage.alpha = 0.0;
@@ -538,6 +581,7 @@ int TOP = 6;
 - (void)viewDidUnload {
     [self setImageView3:nil];
     [self setFriendLabel:nil];
+    [self setUserProfileImage:nil];
     [super viewDidUnload];
 }
 @end

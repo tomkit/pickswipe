@@ -34,7 +34,6 @@
 		413A903216D19E4B002F22A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 413A900A16D19E4B002F22A7 /* Foundation.framework */; };
 		413A903A16D19E4B002F22A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 413A903816D19E4B002F22A7 /* InfoPlist.strings */; };
 		413A903D16D19E4B002F22A7 /* helloworldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 413A903C16D19E4B002F22A7 /* helloworldTests.m */; };
-		41608A4116E6BB010098423B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41608A4016E6BB010098423B /* LoginViewController.m */; };
 		417E59FB16DE96AE000DF886 /* DraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 417E59FA16DE96AE000DF886 /* DraggableView.m */; };
 		41D0C0E016EBC8940015F388 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D0C0DF16EBC8940015F388 /* Constants.m */; };
 		41E0114916DFE275005F4BD3 /* Icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E0114816DFE275005F4BD3 /* Icon-small.png */; };
@@ -89,8 +88,6 @@
 		413A903916D19E4B002F22A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		413A903B16D19E4B002F22A7 /* helloworldTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = helloworldTests.h; sourceTree = "<group>"; };
 		413A903C16D19E4B002F22A7 /* helloworldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = helloworldTests.m; sourceTree = "<group>"; };
-		41608A3F16E6BB010098423B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		41608A4016E6BB010098423B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		417E59F916DE96AE000DF886 /* DraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraggableView.h; sourceTree = "<group>"; };
 		417E59FA16DE96AE000DF886 /* DraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraggableView.m; sourceTree = "<group>"; };
 		41D0C0DE16EBC8940015F388 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -189,8 +186,6 @@
 				413A900F16D19E4B002F22A7 /* Supporting Files */,
 				4106E60316E5D920006D4236 /* ShareViewController.h */,
 				4106E60416E5D921006D4236 /* ShareViewController.m */,
-				41608A3F16E6BB010098423B /* LoginViewController.h */,
-				41608A4016E6BB010098423B /* LoginViewController.m */,
 				41D0C0DE16EBC8940015F388 /* Constants.h */,
 				41D0C0DF16EBC8940015F388 /* Constants.m */,
 			);
@@ -365,7 +360,6 @@
 				413A902816D19E4B002F22A7 /* ViewController.m in Sources */,
 				417E59FB16DE96AE000DF886 /* DraggableView.m in Sources */,
 				4106E60516E5D921006D4236 /* ShareViewController.m in Sources */,
-				41608A4116E6BB010098423B /* LoginViewController.m in Sources */,
 				41D0C0E016EBC8940015F388 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

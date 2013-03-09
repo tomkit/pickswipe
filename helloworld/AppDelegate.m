@@ -8,14 +8,16 @@
 
 #import "AppDelegate.h"
 #import "ShareViewController.h"
-#import "LoginViewController.h"
 #import "ViewController.h"
 
 NSString *const SessionStateChangedNotification =
 @"com.tomkit.pickswipe:SessionStateChangedNotification";
 
-NSString *const OwnIdStateChangeNotification =
-@"com.tomkit.pickswipe:OwnIdStateChangeNotification";
+NSString *const OwnUserStateChangeNotification =
+@"com.tomkit.pickswipe:OwnUserStateChangeNotification";
+
+NSString *const OpenSessionNotification =
+@"com.tomkit.pickswipe:OpenSessionNotification";
 
 @implementation AppDelegate
 UINavigationController *navController;
@@ -26,13 +28,35 @@ UINavigationController *navController;
     
     // Override point for customization after application launch.
     navController = (UINavigationController *)self.window.rootViewController;
-//    ViewController *viewController = [navController.storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
-//    ShareViewController *shareViewController = [navController.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
+    ViewController *viewController = [navController.storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+    ShareViewController *shareViewController = [navController.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
+    
+//    [FBSession openActiveSessionWithReadPermissions:nil
+//                                       allowLoginUI:YES
+//                                  completionHandler:
+//     ^(FBSession *session,
+//       FBSessionState state, NSError *error) {
+//
+//     }];
+    
+//    [shareViewController initWithNibName:nil bundle:nil];
     
 //    navController.viewControllers = [NSArray arrayWithObjects:shareViewController, viewController, nil];
     
 //    [FBSession.activeSession closeAndClearTokenInformation];
+    
+//    [[NSNotificationCenter defaultCenter]
+//     postNotificationName:OpenSessionNotification
+//     object:nil];
+    
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     return YES;
+}
+
+void uncaughtExceptionHandler(NSException *exception) {
+    NSLog(@"CRASH: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+    // Internal error reporting
 }
 
 -(UINavigationController *)getNavController {
