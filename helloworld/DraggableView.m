@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thomas Chen. All rights reserved.
 //
 
+#import "Constants.h"
 #import "DraggableView.h"
 
 @interface DraggableView ()
@@ -77,7 +78,12 @@ void(^swipeCallback)(void);
             swipeCallback();
         }
     } else {
-        self.center = parentCenter;
+        if([Constants resolution] == UIDeviceResolution_iPhoneRetina5) {
+            self.center = parentCenter;
+        } else {
+            self.center = CGPointMake(parentCenter.x, parentCenter.y+21);
+        }
+
     }
     
 }

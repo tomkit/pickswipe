@@ -6,19 +6,18 @@
 //  Copyright (c) 2013 Thomas Chen. All rights reserved.
 //
 
-//
-// V1.2 TODO:
+// V1.3.5 TODO:
 // 1. fix full image to scale to original image size
-// 2. add indicators back in
 
-// V1.5 TODO:
-// 1. add share to friend's FB pickswipe app functionality
-// 2. add in queue for each user to see if there's any images
-// 3. add in 'thank you' functionality
+// V1.4 TODO:
+// 2. Update FB friend picker: non-friends on pickswipe get an email instead.
+// 3. update FB friend picker to show 'most recent'/or search field?
+// 4. after sharing via email, dismiss shareview
+// 5. add notifications when users sends picture
 
-// V2.0 TODO:
-// 1. allow users to select ppl to share via facebook/twitter friends
-// 2. allow people to keep track of ones they liked
+// FUTURE:
+// -allow people to keep track of ones they liked
+// -show who thanked instead of simply a number
 
 
 #import "AppDelegate.h"
@@ -33,11 +32,14 @@
 @property (weak, nonatomic) IBOutlet DraggableView *imageView2;
 @property (weak, nonatomic) IBOutlet DraggableView *imageView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UILabel *numThanksLabel;
+- (IBAction)thanksClicked:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UITextField *textField;
+//@property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UILabel *friendLabel;
 //@property (weak, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
+@property (weak, nonatomic) IBOutlet UIButton *thanksButton;
 
 @property (strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
 
@@ -55,6 +57,7 @@
 @synthesize navigationBar = _navigationBar;
 @synthesize shareButton = _shareButton;
 @synthesize friendLabel = _friendLabel;
+@synthesize thanksButton = _thanksButton;
 //@synthesize userProfileImage = _userProfileImage;
 
 DraggableView *imageView2;
@@ -69,17 +72,17 @@ UILabel *yesOverlay;
 UILabel *noOverlay;
 UILabel *yesOverlay2;
 UILabel *noOverlay2;
-NSString *currentImageURL;
+NSDictionary *currentURLObject;
 NSMutableArray *items;
 NSMutableArray *urls;
 NSDictionary<FBGraphUser> *ownUser;
-int TOP = 6;
+int TOP;
 
 -(void) setupDraggableView:(DraggableView *)imageView {
     // ImageView
     imageView.backgroundColor = [UIColor orangeColor];
     imageView.clipsToBounds = YES;
-    imageView.frame = CGRectMake(0,0,280,189);
+    imageView.frame = CGRectMake(0,0,280,280);
     imageView.layer.borderColor = [[UIColor blackColor] CGColor];
     imageView.layer.borderWidth = 4.0;
     imageView.layer.cornerRadius = 10.0;
@@ -148,8 +151,66 @@ int TOP = 6;
 
 - (void)ownUserChanged:(NSNotification*)notification {
     ownUser = (NSDictionary <FBGraphUser>*)[notification userInfo];
-    NSLog(@"set own user");
+//    NSLog(@"set own user");
+    [self getThanksCount];
+    
 //    ownId = uid;
+}
+
+-(void)updateCount:(NSString*)count {
+    self.numThanksLabel.text = [NSString stringWithFormat:@"%@ Thanks Received", count];
+}
+
+-(void)getThanksCount {
+//    NSLog(@"getting thanks count");
+    if(ownUser) {
+        NSMutableString *url = [[NSMutableString alloc] init];
+        [url appendString:@"http://"];
+        [url appendString:SITE_DOMAIN];
+        [url appendString:@"/ritelike/funny/thanks?u_id="];
+        [url appendString:ownUser.id];
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+        [request setHTTPMethod:@"GET"];
+        
+        // Asynchronous
+        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//                                   NSLog(@"inner get next");
+                                   if(error) {
+                                       NSLog(@"error with get next");
+                                       // do nothing
+                                   } else {
+
+                                       NSString *num = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//                                       NSLog(@"gotnum:%@",num);
+                                       if (![NSThread isMainThread]) {
+                                           [self performSelectorOnMainThread:@selector(updateCount:) withObject:num waitUntilDone:NO];
+                                       }
+                                   }
+                               }];
+    }
+
+    
+    
+    
+
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(ownUserChanged:)
+     name:OwnUserStateChangeNotification
+     object:nil];    
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -157,18 +218,18 @@ int TOP = 6;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(ownUserChanged:)
-     name:OwnUserStateChangeNotification
-     object:nil];
+    
     
     // Navigation Bar
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"title.png"] forBarMetrics:UIBarMetricsDefault];
     self.navigationBar.center = CGPointMake(self.view.center.x,self.navigationBar.frame.size.height/2);
     
-    items = [[NSMutableArray alloc] init];
-    urls = [[NSMutableArray alloc] init];
+    if(!items) {
+        items = [[NSMutableArray alloc] init];
+    }
+    if(!urls) {
+        urls = [[NSMutableArray alloc] init];        
+    }
     
 //    [self.shareButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
     self.shareButton.layer.borderColor = [[UIColor blackColor] CGColor];
@@ -176,10 +237,28 @@ int TOP = 6;
     self.shareButton.layer.cornerRadius = 10.0;
     self.shareButton.layer.masksToBounds = YES;
     
+    self.thanksButton.layer.borderColor = [[UIColor blackColor] CGColor];
+    self.thanksButton.layer.borderWidth = 4.0;
+    self.thanksButton.layer.cornerRadius = 10.0;
+    self.thanksButton.layer.masksToBounds = YES;
+    
+    // Setup DraggableViews
+    [self setupDraggableView:self.imageView3];
     [self setupDraggableView:self.imageView2];
     [self setupDraggableView:self.imageView];
-    self.imageView.center = self.view.center;
-    self.imageView2.center = self.view.center;
+    
+    if ([Constants resolution] == UIDeviceResolution_iPhoneRetina5) {
+        self.imageView.center = self.view.center;
+        self.imageView2.center = self.view.center;
+        self.imageView3.center =self.view.center;
+    } else {
+        self.imageView.center = CGPointMake(self.view.center.x, self.view.center.y+21);
+        self.imageView2.center = CGPointMake(self.view.center.x, self.view.center.y+21);
+        self.imageView3.center = CGPointMake(self.view.center.x, self.view.center.y+21);
+        self.shareButton.center = CGPointMake(self.shareButton.center.x, self.view.center.y+185);
+        self.numThanksLabel.center = CGPointMake(self.numThanksLabel.center.x, self.view.center.y+185);
+    }
+
     
 //    instructionOverlay = [self createOverlay:@" dislike                       like" forView:self.imageView withSize:25];
     
@@ -220,18 +299,23 @@ int TOP = 6;
     [self.imageView sendSubviewToBack:noOverlay];
     
     // Order Subviews
+    [self.view addSubview:self.numThanksLabel];
+    [self.view addSubview:self.thanksButton];
+    [self.view addSubview:self.userProfileImage];
+    [self.view addSubview:self.friendLabel];
+    [self.view addSubview:self.shareButton];
     [self.view addSubview:self.navigationBar];
     [self.view addSubview:self.imageView3];
     [self.view addSubview:self.imageView2];
     [self.view addSubview:self.imageView];
     [self.view bringSubviewToFront:self.imageView];
-    
-//    [self removeInstructionOverlay];
+    TOP = self.view.subviews.count-1;
+    [indicator startAnimating];
     
     self.userProfileImage.alpha = 0.0;
     self.friendLabel.alpha = 0.0;
     self.friendLabel.numberOfLines = 0;
-//    TOP = self.imageView.subviews.count-1;
+    self.thanksButton.alpha = 0.0;
     
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         [FBSession openActiveSessionWithReadPermissions:nil
@@ -239,7 +323,22 @@ int TOP = 6;
                                       completionHandler:
          ^(FBSession *session,
            FBSessionState state, NSError *error) {
-             NSLog(@"nohandler");
+             if(error) {
+                 
+             } else {
+                 [[FBRequest requestForMe] startWithCompletionHandler:
+                  ^(FBRequestConnection *connection,
+                    NSDictionary<FBGraphUser> *user,
+                    NSError *error) {
+                      if(error) {
+                          
+                      } else {
+                          [[NSNotificationCenter defaultCenter]
+                           postNotificationName:OwnUserStateChangeNotification
+                           object:nil userInfo:user];
+                      }
+                  }];
+             }
          }];
     } else {
         // show login
@@ -402,24 +501,37 @@ int TOP = 6;
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if(theTextField == self.textField) {
-        [theTextField resignFirstResponder];
-    }
-    
-    return YES;
-}
+//- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+//    if(theTextField == self.textField) {
+//        [theTextField resignFirstResponder];
+//    }
+//    
+//    return YES;
+//}
 
 - (void)updateZOrder {
     if([self.view.subviews objectAtIndex:TOP] == self.imageView) { // ImageView is top
         [self.view exchangeSubviewAtIndex:(TOP-1) withSubviewAtIndex:TOP];
-        self.imageView.center = self.view.center;
+        if([Constants resolution] == UIDeviceResolution_iPhoneRetina5) {
+            self.imageView.center = self.view.center;
+        } else {
+            self.imageView.center = CGPointMake(self.view.center.x, self.view.center.y+21);
+        }
+
         self.imageView.alpha = 1.0;
     } else if([self.view.subviews objectAtIndex:TOP] == self.imageView2){ // ImageView2 is top
-        [self.view exchangeSubviewAtIndex:TOP withSubviewAtIndex:(TOP-1)];
-        self.imageView2.center = self.view.center;
+        [self.view exchangeSubviewAtIndex:TOP withSubviewAtIndex:(TOP-1)];        
+        if([Constants resolution] == UIDeviceResolution_iPhoneRetina5) {
+            self.imageView2.center = self.view.center;
+        } else {
+            self.imageView2.center = CGPointMake(self.view.center.x, self.view.center.y+21);
+        }
+        
         self.imageView2.alpha = 1.0;
     }
+    
+//    self.shareButton.alpha = 1.0;
+//    self.shareButton.enabled = YES;
 }
 
 - (IBAction)getNext:(id)sender {
@@ -450,8 +562,9 @@ int TOP = 6;
     // Asynchronous
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
         completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            
+//            NSLog(@"inner get next");
             if(error) {
+                NSLog(@"error with get next");
                 // do nothing
             } else {
                 NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableLeaves error: nil];
@@ -487,8 +600,14 @@ int TOP = 6;
                 UIImage *scaledImage = image;
 
                 if(scaledImage) {
-                    [items addObject:scaledImage];
-                    [urls addObject:JSON];
+                    if(from) {
+                        [items insertObject:scaledImage atIndex:0];
+                        [urls insertObject:JSON atIndex:0];
+                    } else {
+                        [items addObject:scaledImage];
+                        [urls addObject:JSON];
+                    }
+
                 }
             
                 if (![NSThread isMainThread]) {
@@ -504,61 +623,74 @@ int TOP = 6;
 
 -(void)tryToDisplayImage:(NSString *)from_id {
     UIImage *imageToDisplay;
-    
+//    NSLog(@"try to display");
     DraggableView *view = [self.view.subviews objectAtIndex:TOP];
     if(view.image == nil) {
         if(items.count > 0) {
             if((imageToDisplay = [items objectAtIndex:0])) {
                 NSDictionary *urlObject = [urls objectAtIndex:0];
-                currentImageURL = [urlObject objectForKey:@"url"];
+                currentURLObject = urlObject;
                 
                 [items removeObjectAtIndex:0];
                 [urls removeObjectAtIndex:0];
                 
                 if((from_id = [urlObject objectForKey:@"from_id"])) {
+                    
+                    [UIView beginAnimations:nil context:NULL];
+                    [UIView setAnimationDuration:0.5];
+                    self.userProfileImage.alpha = 1.0;
+                    self.friendLabel.alpha = 1.0;
+                    self.thanksButton.alpha = 1.0;
+                    [UIView commitAnimations];
+                    
 //                    NSLog(@"Got from ID:%@", from_id);
                     if (FBSession.activeSession.isOpen) {
-                        [[FBRequest requestForMe] startWithCompletionHandler:
+                        [[FBRequest requestForMyFriends] startWithCompletionHandler:
                          ^(FBRequestConnection *connection,
-                           NSDictionary<FBGraphUser> *user,
+                           NSDictionary *result,
                            NSError *error) {
                              
                              if (!error) {
+                                 NSArray* friends = [result objectForKey:@"data"];
                                  // TODO: make this more efficient
-//                                 for (NSDictionary<FBGraphUser> *friend in users) {
+                                 for (NSDictionary<FBGraphUser> *friend in friends) {
 //                                     NSLog(@"ids:%@",friend.id);
-//                                     if([friend.id isEqualToString:from_id]) {
-                                         self.userProfileImage.profileID = user.id;
-                                         self.friendLabel.text = @"From your friend!";
-                                         self.userProfileImage.alpha = 1.0;
-                                         self.friendLabel.alpha = 1.0;
-//                                     break;
-//                                     }
-//                                 }
-                                 
+                                     if([friend.id isEqualToString:from_id]) {
+                                         self.userProfileImage.profileID = friend.id;
+//                                         self.friendLabel.text = @"From your friend!";
+                                         break;
+                                     }
+                                 }
+                             
 
                              }
                          }];
                     }
                     
                 } else {
-                    self.friendLabel.text = @"";
+                    [UIView beginAnimations:nil context:NULL];
+                    [UIView setAnimationDuration:0.5];
                     self.userProfileImage.alpha = 0.0;
                     self.friendLabel.alpha = 0.0;
+                    self.thanksButton.alpha = 0.0;
+                    [UIView commitAnimations];
                 }
                 
                 if([self.view.subviews objectAtIndex:TOP] == self.imageView) {
-                    [indicator startAnimating];
                     [self.imageView setImage:imageToDisplay];
                     [indicator stopAnimating];
                     self.imageView2.image = nil;
+                    [indicator2 startAnimating];
                 } else if([self.view.subviews objectAtIndex:TOP] == self.imageView2){
-                    [indicator startAnimating];
                     [self.imageView2 setImage:imageToDisplay];
-                    [indicator stopAnimating];
+                    [indicator2 stopAnimating];
                     self.imageView.image = nil;
+                    [indicator startAnimating];
                 }
                 
+                if(items.count < 10) {
+                    [self getNext:nil];
+                }
                 
             }
         } else if(items.count < 10){
@@ -569,12 +701,26 @@ int TOP = 6;
 
 - (IBAction)shareClicked:(id)sender {    
     // Overridden by Segue
+//    self.shareButton.alpha = 0.4;
+//    self.shareButton.enabled = NO;
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if([identifier isEqualToString:@"showShareView"]) {
+        if(self.imageView.image == nil && self.imageView2.image == nil) {
+            return NO;
+        }
+    }
+    
+    
+    return YES;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showShareView"]) {
+        
         UINavigationController *destViewController = segue.destinationViewController;
-        [(ShareViewController *)destViewController.topViewController setShareUrl:currentImageURL];
+        [(ShareViewController *)destViewController.topViewController setShareUrl:[currentURLObject objectForKey:@"url"]];
     }
 }
 
@@ -582,6 +728,42 @@ int TOP = 6;
     [self setImageView3:nil];
     [self setFriendLabel:nil];
     [self setUserProfileImage:nil];
+    [self setThanksButton:nil];
+    [self setNumThanksLabel:nil];
     [super viewDidUnload];
+}
+- (IBAction)thanksClicked:(id)sender {
+    
+    if(currentURLObject) {
+        NSMutableString *postURL = [[NSMutableString alloc] init];
+        [postURL appendString:@"http://"];
+        [postURL appendString:SITE_DOMAIN];
+        [postURL appendString:@"/ritelike/funny"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+        NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[currentURLObject objectForKey:@"from_id"], @"thanks", nil] forKeys:[NSArray arrayWithObjects:@"from_id", @"type",nil]];
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%d", [jsonData length]] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody: jsonData];
+        
+        // Asynchronous
+        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                   if(error) {
+                                       NSLog(@"thanks post error");
+                                   } else {
+//                                       NSLog(@"thanks post success");
+
+                                   }
+                               }];
+        
+        self.thanksButton.enabled = NO;
+        self.thanksButton.alpha = 0.4;
+    }
+    
+    
 }
 @end

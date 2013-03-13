@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thomas Chen. All rights reserved.
 //
 
+//#import <MessageUI/MFMailComposeViewController.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ShareViewController.h"
 #import "AppDelegate.h"
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 - (IBAction)emailClicked:(id)sender;
 @end
@@ -28,20 +30,24 @@
 @synthesize emailButton = _emailButton;
 @synthesize facebookButton = _facebookButton;
 @synthesize feedbackLabel = _feedbackLabel;
+@synthesize titleLabel = _titleLabel;
 NSString *shareUrl;
 NSString *ownId;
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        NSLog(@"reg notif");
-        [[NSNotificationCenter defaultCenter]
-         addObserver:self
-         selector:@selector(openSession)
-         name:OpenSessionNotification
-         object:nil];
+
+        
     }
     return self;
 }
@@ -66,11 +72,7 @@ NSString *ownId;
     
     self.feedbackLabel.numberOfLines = 0;
     
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(sessionStateChanged:)
-     name:SessionStateChangedNotification
-     object:nil];
+    
     
     
 }
@@ -84,6 +86,19 @@ NSString *ownId;
 -(void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
+    
+    NSLog(@"reg notif");
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(openSession)
+     name:OpenSessionNotification
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(sessionStateChanged:)
+     name:SessionStateChangedNotification
+     object:nil];
     
     if (FBSession.activeSession.isOpen) {
 //            NSLog(@"got in herE");
@@ -109,6 +124,29 @@ NSString *ownId;
 
 - (void)populateUserDetails
 {
+    if(self.selectedFriends.count > 0) {
+        NSDictionary<FBGraphUser> *friend1 = [self.selectedFriends objectAtIndex:0];
+        //                     NSLog(@"id:%@", friend1.id);
+        self.userProfileImage.profileID = friend1.id;
+        
+//        [UIView beginAnimations:nil context:NULL];
+//        [UIView setAnimationDuration:0.5];
+        self.feedbackLabel.text = @"Sent to your friend!";
+        self.feedbackLabel.alpha = 1.0;
+        self.userProfileImage.alpha = 1.0;
+        self.titleLabel.alpha = 0.0;
+//        [UIView commitAnimations];
+    } else {
+        //                     NSLog(@"id:%@", user.id);
+        //                     self.userProfileImage.profileID = user.id;
+//        [UIView beginAnimations:nil context:NULL];
+//        [UIView setAnimationDuration:0.5];
+        self.feedbackLabel.alpha = 0.0;
+        self.userProfileImage.alpha = 0.0;
+        self.titleLabel.alpha = 1.0;
+//        [UIView commitAnimations];
+    }
+    
     if (FBSession.activeSession.isOpen) {
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection,
@@ -122,19 +160,7 @@ NSString *ownId;
                   object:nil userInfo:user];
                  
 //                 NSLog(@"%lu", (unsigned long)self.selectedFriends.count);
-                 if(self.selectedFriends.count > 0) {
-                     NSDictionary<FBGraphUser> *friend1 = [self.selectedFriends objectAtIndex:0];
-//                     NSLog(@"id:%@", friend1.id);
-                     self.userProfileImage.profileID = friend1.id;
-                     self.feedbackLabel.text = @"Sent to your friend!";
-                     self.feedbackLabel.alpha = 1.0;
-                     self.userProfileImage.alpha = 1.0;
-                 } else {
-//                     NSLog(@"id:%@", user.id);
-//                     self.userProfileImage.profileID = user.id;
-                     self.feedbackLabel.alpha = 0.0;
-                     self.userProfileImage.alpha = 0.0;
-                 }
+                 
              }
          }];
     }
@@ -155,14 +181,61 @@ NSString *ownId;
     [self populateUserDetails];
     [self sendToFriend];
     [self dismissModalViewControllerAnimated:YES];
-//    NSLog(@"FB done");
+    self.friendPickerController = nil;
+
+    // Support push notifications
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+    
+    // Convert to string
+    NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSMutableString *postURL = [[NSMutableString alloc] init];
+    [postURL appendString:@"http://"];
+    [postURL appendString:SITE_DOMAIN];
+    [postURL appendString:@"/ritelike/funny/regnotif"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+    NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:ownId, deviceTokenString, nil] forKeys:[NSArray arrayWithObjects:@"u_id", @"device_id", nil]];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%d", [jsonData length]] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody: jsonData];
+    
+    // Asynchronous
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if(error) {
+                               } else {
+                                   NSLog(@"post deviceid success");
+                               }
+                           }];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
 }
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender{
 //    NSLog(@"FB canceled");
+    [self dismissModalViewControllerAnimated:YES];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5];
     self.feedbackLabel.alpha = 0.0;
     self.userProfileImage.alpha = 0.0;
-    [self dismissModalViewControllerAnimated:YES];
+    [UIView commitAnimations];
+        self.friendPickerController = nil;
+
 }
 
 -(void)sendToFriend {
@@ -174,17 +247,10 @@ NSString *ownId;
         [postURL appendString:@"http://"];
         [postURL appendString:SITE_DOMAIN];
         [postURL appendString:@"/ritelike/funny"];
-//        NSLog(@"URL:%@", postURL);
-        
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-        
         NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:shareUrl, friend1.id, ownId, nil] forKeys:[NSArray arrayWithObjects:@"url", @"to_id", @"from_id", nil]];
-        
-//        NSLog(@"posting:%@", initialLogAsJSON);
-        
         NSError *error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
-        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];        
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -213,10 +279,10 @@ NSString *ownId;
     switch (state) {
         case FBSessionStateOpen: {
 //            NSLog(@"open state");
-            if (!self.friendPickerController) {
+            if (self.friendPickerController == nil) {
                 
-                self.friendPickerController = [[FBFriendPickerViewController alloc]
-                                               initWithNibName:nil bundle:nil];
+                self.friendPickerController = [[FBFriendPickerViewController alloc] init];
+                self.friendPickerController.allowsMultipleSelection = NO;
                 self.friendPickerController.title = @"Select friends";
                 self.friendPickerController.delegate = self;
             }
@@ -226,7 +292,8 @@ NSString *ownId;
             self.selectedFriends = [[NSArray alloc] init];
             
 //            [self.navigationController pushViewController:self.friendPickerController animated:true];
-            [self presentModalViewController:self.friendPickerController animated:YES];
+            [self presentViewController:self.friendPickerController animated:YES completion:NULL];
+//            [self presentModalViewController:self.friendPickerController animated:YES];
         }
             break;
         case FBSessionStateClosed:
@@ -261,7 +328,7 @@ NSString *ownId;
 
 - (void)openSession
 {
-    NSLog(@"opensession");
+//    NSLog(@"opensession");
     [FBSession openActiveSessionWithReadPermissions:nil
                                        allowLoginUI:YES
                                   completionHandler:
@@ -276,6 +343,7 @@ NSString *ownId;
 //    NSLog(@"%@", shareUrl);
     NSString *currentImageURL = shareUrl;
     htmlBody = [htmlBody stringByAppendingString:currentImageURL];
+    htmlBody = [htmlBody stringByAppendingString:@"\n\nFrom my pickswipe app"];
     
     // First escape the body using a CF call
     NSString *escapedBody = (NSString*)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,  (CFStringRef)htmlBody, NULL,  CFSTR("?=&+"), kCFStringEncodingUTF8));
@@ -288,7 +356,23 @@ NSString *ownId;
     
     // And let the application open the merged URL
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailtoStr]];
+    
+//    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+//    controller.mailComposeDelegate = self;
+//    [controller setSubject:@"My Subject"];
+//    [controller setMessageBody:@"Hello there." isHTML:NO];
+//    if (controller) [self presentModalViewController:controller animated:YES];
 }
+
+//- (void)mailComposeController:(MFMailComposeViewController*)controller
+//          didFinishWithResult:(MFMailComposeResult)result
+//                        error:(NSError*)error;
+//{
+//    if (result == MFMailComposeResultSent) {
+//        NSLog(@"sent");
+//    }
+//    [self dismissModalViewControllerAnimated:YES];
+//}
 
 //- (void)friendPickerViewControllerSelectionDidChange:
 //(FBFriendPickerViewController *)friendPicker
@@ -303,14 +387,23 @@ NSString *ownId;
     [self populateUserDetails];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    NSLog(@"unreg notif");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];    
+}
+
 - (void)viewDidUnload {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     self.friendPickerController = nil;
+    self.selectedFriends = nil;
     
     [self setUserProfileImage:nil];
     [self setEmailButton:nil];
     [self setFacebookButton:nil];
     [self setFeedbackLabel:nil];
+    [self setTitleLabel:nil];
     [super viewDidUnload];
     
 }

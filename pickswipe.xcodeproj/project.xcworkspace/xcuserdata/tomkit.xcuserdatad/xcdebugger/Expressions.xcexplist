@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VariablesViewState
    version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[ViewController getThanksCount]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "ownUser">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ShareViewController sessionStateChanged:state:error:]:ShareViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.friendPickerController != nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
 </VariablesViewState>

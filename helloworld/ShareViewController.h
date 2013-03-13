@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface ShareViewController : UIViewController
+@interface ShareViewController : UIViewController <FBFriendPickerDelegate>
 -(void) setShareUrl:(NSString *)url;
 - (void)loginFailed;
-@property (strong, nonatomic) FBFriendPickerViewController *friendPickerController;
+@property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
 @property (strong, nonatomic) NSArray* selectedFriends;
 @end
