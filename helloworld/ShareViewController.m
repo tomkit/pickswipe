@@ -155,6 +155,8 @@ NSString *ownId;
 
              if (!error) {
                  ownId = user.id;
+                 AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                 [appDelegate setOwnId:ownId];
                  [[NSNotificationCenter defaultCenter]
                   postNotificationName:OwnUserStateChangeNotification
                   object:nil userInfo:user];
@@ -182,48 +184,13 @@ NSString *ownId;
     [self sendToFriend];
     [self dismissModalViewControllerAnimated:YES];
     self.friendPickerController = nil;
-
+    
     // Support push notifications
+    NSLog(@"reg push notif");
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-
 }
 
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
-	NSLog(@"My token is: %@", deviceToken);
-    
-    // Convert to string
-    NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    NSMutableString *postURL = [[NSMutableString alloc] init];
-    [postURL appendString:@"http://"];
-    [postURL appendString:SITE_DOMAIN];
-    [postURL appendString:@"/ritelike/funny/regnotif"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-    NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:ownId, deviceTokenString, nil] forKeys:[NSArray arrayWithObjects:@"u_id", @"device_id", nil]];
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"%d", [jsonData length]] forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody: jsonData];
-    
-    // Asynchronous
-    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               if(error) {
-                               } else {
-                                   NSLog(@"post deviceid success");
-                               }
-                           }];
-}
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
-	NSLog(@"Failed to get token, error: %@", error);
-}
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender{
 //    NSLog(@"FB canceled");
@@ -242,7 +209,7 @@ NSString *ownId;
 
     if(self.selectedFriends.count > 0) {
         NSDictionary<FBGraphUser> *friend1 = [self.selectedFriends objectAtIndex:0];
-        
+//        NSLog(@"%@",friend1);
         NSMutableString *postURL = [[NSMutableString alloc] init];
         [postURL appendString:@"http://"];
         [postURL appendString:SITE_DOMAIN];

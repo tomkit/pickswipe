@@ -60,11 +60,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ViewController.m"
-         timestampString = "384810782.200667"
+         timestampString = "384843049.597326"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "556"
-         endingLineNumber = "556"
+         startingLineNumber = "562"
+         endingLineNumber = "562"
+         landmarkName = "@implementation ViewController"
+         landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "helloworld/ViewController.m"
+         timestampString = "384843049.597326"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "583"
+         endingLineNumber = "583"
          landmarkName = "-innerGetNext:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,24 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ViewController.m"
-         timestampString = "384810782.200667"
+         timestampString = "384843049.597326"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "577"
-         endingLineNumber = "577"
-         landmarkName = "-innerGetNext:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "helloworld/ViewController.m"
-         timestampString = "384808279.267754"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "271"
-         endingLineNumber = "271"
+         startingLineNumber = "277"
+         endingLineNumber = "277"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/AppDelegate.m"
-         timestampString = "384562835.956136"
+         timestampString = "384846665.133405"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "43"
-         endingLineNumber = "43"
+         startingLineNumber = "47"
+         endingLineNumber = "47"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -151,11 +151,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ViewController.m"
-         timestampString = "384766299.041901"
+         timestampString = "384844499.935679"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "164"
-         endingLineNumber = "164"
+         startingLineNumber = "170"
+         endingLineNumber = "170"
+         landmarkName = "-updateCount:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "helloworld/ViewController.m"
+         timestampString = "384844499.935679"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "184"
+         endingLineNumber = "184"
          landmarkName = "-getThanksCount"
          landmarkType = "5">
       </FileBreakpoint>
@@ -164,24 +177,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ViewController.m"
-         timestampString = "384766299.041901"
+         timestampString = "384843049.597326"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "178"
-         endingLineNumber = "178"
-         landmarkName = "-getThanksCount"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "helloworld/ViewController.m"
-         timestampString = "384808279.267754"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "253"
-         endingLineNumber = "253"
+         startingLineNumber = "259"
+         endingLineNumber = "259"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -190,13 +190,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
+         timestampString = "384840439.904045"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "368"
-         endingLineNumber = "368"
-         landmarkName = "-viewWillDisappear:"
-         landmarkType = "5">
+         startingLineNumber = "335"
+         endingLineNumber = "335"
+         landmarkName = "@implementation ShareViewController"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -242,12 +242,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
+         timestampString = "384840439.904045"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "364"
-         endingLineNumber = "364"
-         landmarkName = "-viewWillDisappear:"
+         startingLineNumber = "331"
+         endingLineNumber = "331"
+         landmarkName = "-emailClicked:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -255,12 +255,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
+         timestampString = "384840439.904045"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "365"
-         endingLineNumber = "365"
-         landmarkName = "-viewWillDisappear:"
+         startingLineNumber = "332"
+         endingLineNumber = "332"
+         landmarkName = "-emailClicked:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -268,11 +268,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ViewController.m"
-         timestampString = "384808276.075792"
+         timestampString = "384843049.597326"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "219"
-         endingLineNumber = "219"
+         startingLineNumber = "226"
+         endingLineNumber = "226"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -281,12 +281,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
+         timestampString = "384840439.904045"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "253"
-         endingLineNumber = "253"
-         landmarkName = "-sessionStateChanged:state:error:"
+         startingLineNumber = "220"
+         endingLineNumber = "220"
+         landmarkName = "-sendToFriend"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -294,25 +294,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
+         timestampString = "384840439.904045"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "256"
-         endingLineNumber = "256"
-         landmarkName = "-sessionStateChanged:state:error:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "373"
-         endingLineNumber = "373"
-         landmarkName = "-viewDidUnload"
+         startingLineNumber = "223"
+         endingLineNumber = "223"
+         landmarkName = "-sendToFriend"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -320,12 +307,51 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "helloworld/ShareViewController.m"
-         timestampString = "384824639.426904"
+         timestampString = "384840439.904045"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "258"
-         endingLineNumber = "258"
-         landmarkName = "-sessionStateChanged:state:error:"
+         startingLineNumber = "340"
+         endingLineNumber = "340"
+         landmarkName = "@implementation ShareViewController"
+         landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "helloworld/ShareViewController.m"
+         timestampString = "384840439.904045"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "225"
+         endingLineNumber = "225"
+         landmarkName = "-sendToFriend"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "helloworld/ViewController.m"
+         timestampString = "384843049.597326"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "224"
+         endingLineNumber = "224"
+         landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "helloworld/ViewController.m"
+         timestampString = "384846507.418948"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "209"
+         endingLineNumber = "209"
+         landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

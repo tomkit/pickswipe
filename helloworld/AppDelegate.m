@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ShareViewController.h"
 #import "ViewController.h"
+#import "Constants.h"
 
 NSString *const SessionStateChangedNotification =
 @"com.tomkit.pickswipe:SessionStateChangedNotification";
@@ -21,10 +22,13 @@ NSString *const OpenSessionNotification =
 
 @implementation AppDelegate
 UINavigationController *navController;
+NSString *ownId;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [FBProfilePictureView class];
+    
+    
     
     // Override point for customization after application launch.
     navController = (UINavigationController *)self.window.rootViewController;
@@ -88,6 +92,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    int appIconBadge = application.applicationIconBadgeNumber;
+    if(appIconBadge > 0) {
+        application.applicationIconBadgeNumber = 0;
+    }
+    
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     // We need to properly handle activation of the application with regards to Facebook Login
@@ -98,6 +107,50 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void)setOwnId:(NSString*)oId {
+    ownId = oId;
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+    
+    if(ownId) {
+        // Convert to string
+        NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+        deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
+        NSMutableString *postURL = [[NSMutableString alloc] init];
+        [postURL appendString:@"http://"];
+        [postURL appendString:SITE_DOMAIN];
+        [postURL appendString:@"/ritelike/funny/regnotif"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+        NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:ownId, deviceTokenString, nil] forKeys:[NSArray arrayWithObjects:@"u_id", @"device_id", nil]];
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%d", [jsonData length]] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody: jsonData];
+        
+        // Asynchronous
+        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                   if(error) {
+                                   } else {
+                                       NSLog(@"post deviceid success");
+                                   }
+                               }];
+    }
+    
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
 }
 
 @end

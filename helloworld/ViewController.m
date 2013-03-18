@@ -5,15 +5,18 @@
 //  Created by Thomas Chen on 2/17/13.
 //  Copyright (c) 2013 Thomas Chen. All rights reserved.
 //
+// V1.3.6 TODO:
+// 1. Add most recent 5 images users liked/disliked
+// 2. Add in categories /r/aww for example
+// 3. Add in sending a message with an image.
 
-// V1.3.5 TODO:
-// 1. fix full image to scale to original image size
-
-// V1.4 TODO:
-// 2. Update FB friend picker: non-friends on pickswipe get an email instead.
-// 3. update FB friend picker to show 'most recent'/or search field?
-// 4. after sharing via email, dismiss shareview
-// 5. add notifications when users sends picture
+// V1.3.7 TODO:
+// 1. Fix getting notification and having to swipe before you see the one from your friend.
+// 2. Fix full image to scale to original image size
+// 3. Fix updating # thanks to when you launch the app.
+// 4. Update FB friend picker: non-friends on pickswipe get an email instead.
+// 5. update FB friend picker to show 'most recent'/or search field?
+// 6. after sharing via email, dismiss shareview
 
 // FUTURE:
 // -allow people to keep track of ones they liked
@@ -151,8 +154,14 @@ int TOP;
 
 - (void)ownUserChanged:(NSNotification*)notification {
     ownUser = (NSDictionary <FBGraphUser>*)[notification userInfo];
-//    NSLog(@"set own user");
+    
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate setOwnId:ownUser.id];
+
     [self getThanksCount];
+    
+//    NSLog(@"set own user");
+
     
 //    ownId = uid;
 }
@@ -204,7 +213,7 @@ int TOP;
      addObserver:self
      selector:@selector(ownUserChanged:)
      name:OwnUserStateChangeNotification
-     object:nil];    
+     object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -641,6 +650,7 @@ int TOP;
                     self.userProfileImage.alpha = 1.0;
                     self.friendLabel.alpha = 1.0;
                     self.thanksButton.alpha = 1.0;
+                    self.thanksButton.enabled = YES;
                     [UIView commitAnimations];
                     
 //                    NSLog(@"Got from ID:%@", from_id);

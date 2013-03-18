@@ -17,11 +17,20 @@
 CGPoint offset;
 CGPoint endOffset;
 CGPoint parentCenter;
+int SMILE;
+int SAD;
 void(^swipeCallback)(void);
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
-
+//        UIImage *corner = [UIImage imageNamed:@"corner.png"];
+//        UIImageView *cornerView = [[UIImageView alloc] initWithImage:corner];
+//        [self addSubview:cornerView];
+//        cornerView.center = CGPointMake(self.frame.size.width, self.frame.size.height);
+        
+        SAD = 0;
+        SMILE = SAD+1;
+        
     }
     return self;
 }
@@ -55,14 +64,14 @@ void(^swipeCallback)(void);
                             self.frame.size.width, self.frame.size.height);
     
     if(location.x-offset.x>0) {
-        [[self.subviews objectAtIndex:1] setAlpha:0.01*(location.x-offset.x)]; // =)
-        [[self.subviews objectAtIndex:0] setAlpha:0.0]; // =(
+        [[self.subviews objectAtIndex:SMILE] setAlpha:0.01*(location.x-offset.x)]; // =)
+        [[self.subviews objectAtIndex:SAD] setAlpha:0.0]; // =(
     } else if(offset.x-location.x>0) {
-        [[self.subviews objectAtIndex:1] setAlpha:0.0];
-        [[self.subviews objectAtIndex:0] setAlpha:0.01*(offset.x-location.x)];
+        [[self.subviews objectAtIndex:SMILE] setAlpha:0.0];
+        [[self.subviews objectAtIndex:SAD] setAlpha:0.01*(offset.x-location.x)];
     } else {
-        [[self.subviews objectAtIndex:1] setAlpha:0.0]; 
-        [[self.subviews objectAtIndex:0] setAlpha:0.0]; 
+        [[self.subviews objectAtIndex:SMILE] setAlpha:0.0];
+        [[self.subviews objectAtIndex:SAD] setAlpha:0.0];
     }
     [UIView commitAnimations];
 }
@@ -70,8 +79,8 @@ void(^swipeCallback)(void);
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     endOffset = [[touches anyObject] locationInView: nil];
     
-    [[self.subviews objectAtIndex:1] setAlpha:0];
-    [[self.subviews objectAtIndex:0] setAlpha:0];
+    [[self.subviews objectAtIndex:SMILE] setAlpha:0];
+    [[self.subviews objectAtIndex:SAD] setAlpha:0];
     
     if(fabs(endOffset.x - offset.x) >= 100) {
         if(swipeCallback) {

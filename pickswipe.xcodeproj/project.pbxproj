@@ -501,6 +501,8 @@
 		413A904216D19E4B002F22A7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Chen";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Chen";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -515,6 +517,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = pickswipe;
+				PROVISIONING_PROFILE = "20061EDE-73F4-4E2F-B082-CEC494588DA1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "20061EDE-73F4-4E2F-B082-CEC494588DA1";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

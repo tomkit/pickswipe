@@ -18,4 +18,5 @@ extern NSString *const OpenSessionNotification;
 @property (strong, nonatomic) UIWindow *window;
 -(UINavigationController *)getNavController;
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
+-(void)setOwnId:(NSString*)oId;
 @end
