@@ -12,11 +12,13 @@
 extern NSString *const SessionStateChangedNotification;
 extern NSString *const OwnUserStateChangeNotification;
 extern NSString *const OpenSessionNotification;
+extern NSString *const TryGetSessionNotification;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 -(UINavigationController *)getNavController;
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
--(void)setOwnId:(NSString*)oId;
+-(void)setOwnUser:(NSDictionary<FBGraphUser>*)oUser;
+-(NSDictionary<FBGraphUser> *)getOwnUser;
 @end

@@ -32,7 +32,7 @@
 @synthesize feedbackLabel = _feedbackLabel;
 @synthesize titleLabel = _titleLabel;
 NSString *shareUrl;
-NSString *ownId;
+//NSString *ownId;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
@@ -100,6 +100,10 @@ NSString *ownId;
      name:SessionStateChangedNotification
      object:nil];
     
+    if(!FBSession.activeSession.isOpen) {
+        self.titleLabel.text = @"Connect with FB to get laughs from friends!";
+    }
+    
     if (FBSession.activeSession.isOpen) {
 //            NSLog(@"got in herE");
         [self populateUserDetails];
@@ -147,25 +151,32 @@ NSString *ownId;
 //        [UIView commitAnimations];
     }
     
-    if (FBSession.activeSession.isOpen) {
+    [self updateUser];
+}
+
+-(void) updateUser {
+    if (FBSession.activeSession) {
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection,
            NSDictionary<FBGraphUser> *user,
            NSError *error) {
-
+             NSLog(@"updateUser cb");
              if (!error) {
-                 ownId = user.id;
+                 NSLog(@"updateUser no error");
+//                 ownId = user.id;
+                 
                  AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-                 [appDelegate setOwnId:ownId];
+                 [appDelegate setOwnUser:user];
+                 
                  [[NSNotificationCenter defaultCenter]
                   postNotificationName:OwnUserStateChangeNotification
                   object:nil userInfo:user];
                  
-//                 NSLog(@"%lu", (unsigned long)self.selectedFriends.count);
+                 //                 NSLog(@"%lu", (unsigned long)self.selectedFriends.count);
                  
              }
          }];
-    }
+    } 
 }
 
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
@@ -185,6 +196,12 @@ NSString *ownId;
     [self dismissModalViewControllerAnimated:YES];
     self.friendPickerController = nil;
     
+//    [self updateUser];
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:TryGetSessionNotification
+     object:nil];
+    
     // Support push notifications
     NSLog(@"reg push notif");
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
@@ -201,13 +218,24 @@ NSString *ownId;
     self.feedbackLabel.alpha = 0.0;
     self.userProfileImage.alpha = 0.0;
     [UIView commitAnimations];
-        self.friendPickerController = nil;
-
+    self.friendPickerController = nil;
+    
+//    [self updateUser];
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:TryGetSessionNotification
+     object:nil];
+    
+    NSLog(@"reg push notif");
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
 }
 
 -(void)sendToFriend {
 
     if(self.selectedFriends.count > 0) {
+        AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        NSString *ownId = [appDelegate getOwnUser].id;
+        
         NSDictionary<FBGraphUser> *friend1 = [self.selectedFriends objectAtIndex:0];
 //        NSLog(@"%@",friend1);
         NSMutableString *postURL = [[NSMutableString alloc] init];
@@ -240,7 +268,7 @@ NSString *ownId;
     
 }
 
-- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
+- (void)fbSessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
 {
 
     switch (state) {
@@ -254,6 +282,7 @@ NSString *ownId;
                 self.friendPickerController.delegate = self;
             }
             
+            NSLog(@"load data");
             [self.friendPickerController loadData];
             [self.friendPickerController clearSelection];
             self.selectedFriends = [[NSArray alloc] init];
@@ -301,7 +330,8 @@ NSString *ownId;
                                   completionHandler:
      ^(FBSession *session,
        FBSessionState state, NSError *error) {
-         [self sessionStateChanged:session state:state error:error];
+         [self fbSessionStateChanged:session state:state error:error];
+//         [self updateUser];
      }];
 }
 
@@ -358,7 +388,8 @@ NSString *ownId;
     [super viewWillDisappear:animated];
     
     NSLog(@"unreg notif");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 - (void)viewDidUnload {

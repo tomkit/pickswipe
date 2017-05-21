@@ -10,7 +10,7 @@
 #import "DraggableView.h"
 
 @interface DraggableView ()
-
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @end
 
 @implementation DraggableView
@@ -20,6 +20,9 @@ CGPoint parentCenter;
 int SMILE;
 int SAD;
 void(^swipeCallback)(void);
+//UIImageView *imageView;
+BOOL isLarge;
+@synthesize imageView = _imageView;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
@@ -27,12 +30,44 @@ void(^swipeCallback)(void);
 //        UIImageView *cornerView = [[UIImageView alloc] initWithImage:corner];
 //        [self addSubview:cornerView];
 //        cornerView.center = CGPointMake(self.frame.size.width, self.frame.size.height);
+//         [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
+        [self setContentSize:CGSizeMake(280,280)];
+//        [scrollView.addSubview:self];
+        self.imageView = [[UIImageView alloc] init];
+        [self.imageView setFrame:CGRectMake(0,0,280,280)];
+        [self addSubview:self.imageView];
+        [self.imageView sendSubviewToBack:self];
         
+        isLarge = NO;
         SAD = 0;
         SMILE = SAD+1;
         
     }
     return self;
+}
+
+-(void)setFrame:(CGRect)rect isLarge:(BOOL)isLarge {
+    [super setFrame:rect];
+    self.imageView.frame = rect;
+    isLarge = isLarge;
+}
+
+-(void)setCenter:(CGPoint)point {
+    [super setCenter:point];
+    
+    [self.imageView setCenter:parentCenter];
+}
+
+-(void)image:i {
+    self.imageView.image = i;
+}
+
+-(UIImage*)image {
+    return self.imageView.image;
+}
+
+-(void)setImage:img {
+    [self.imageView setImage:img];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -49,13 +84,16 @@ void(^swipeCallback)(void);
 }
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-  
     UITouch *aTouch = [touches anyObject];
     
     offset = [aTouch locationInView: self];
 }
 
 -(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    if(isLarge) {
+        return;
+    }
+    
     UITouch *aTouch = [touches anyObject];
     CGPoint location = [aTouch locationInView:self.superview];
     
@@ -77,6 +115,10 @@ void(^swipeCallback)(void);
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    if(isLarge) {
+        return;
+    }
+    
     endOffset = [[touches anyObject] locationInView: nil];
     
     [[self.subviews objectAtIndex:SMILE] setAlpha:0];

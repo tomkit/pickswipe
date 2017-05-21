@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController <UITextFieldDelegate>
-
+-(void)getThanksCount;
+-(void)tryGetSession;
+-(void)keepSwiping;
+-(void)getNext;
 @end

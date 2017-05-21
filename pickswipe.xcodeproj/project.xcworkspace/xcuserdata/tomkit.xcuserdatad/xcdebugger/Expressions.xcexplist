@@ -3,7 +3,7 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "-[ViewController getThanksCount]:ViewController.m">
+         contextName = "-[AppDelegate applicationDidBecomeActive:]:AppDelegate.m">
          <PersistentStrings>
             <PersistentString
                value = "ownUser">
@@ -15,6 +15,48 @@
          <PersistentStrings>
             <PersistentString
                value = "self.friendPickerController != nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ShareViewController viewWillAppear:]:ShareViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "FBSession.activeSession">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController tryToDisplayImage:]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imageView">
+            </PersistentString>
+            <PersistentString
+               value = "view">
+            </PersistentString>
+            <PersistentString
+               value = "self.imageView2">
+            </PersistentString>
+            <PersistentString
+               value = "TOP">
+            </PersistentString>
+            <PersistentString
+               value = "self.imageView.image">
+            </PersistentString>
+            <PersistentString
+               value = "view.image">
+            </PersistentString>
+            <PersistentString
+               value = "self.view.subviews[8].image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController getThanksCount]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "ownUser">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

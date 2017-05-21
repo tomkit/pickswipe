@@ -6,6 +6,11 @@
 //  Copyright (c) 2013 Thomas Chen. All rights reserved.
 //
 // V1.3.6 TODO:
+// 1. add gif support
+// 2. Make first image from friend notification.
+// 7. Show friends who are registered with pickswipe. Send FB notif to the ones who aren't and chosen.
+
+// V1.3.7 TODO:
 // 1. Add most recent 5 images users liked/disliked
 // 2. Add in categories /r/aww for example
 // 3. Add in sending a message with an image.
@@ -78,7 +83,7 @@ UILabel *noOverlay2;
 NSDictionary *currentURLObject;
 NSMutableArray *items;
 NSMutableArray *urls;
-NSDictionary<FBGraphUser> *ownUser;
+//NSDictionary<FBGraphUser> *ownUser;
 int TOP;
 
 -(void) setupDraggableView:(DraggableView *)imageView {
@@ -90,6 +95,11 @@ int TOP;
     imageView.layer.borderWidth = 4.0;
     imageView.layer.cornerRadius = 10.0;
     imageView.layer.masksToBounds = YES;
+}
+
+-(void)keepSwiping {
+    self.friendLabel.text = @"Keep swiping!";
+    self.friendLabel.alpha = 1.0;
 }
 
 -(UILabel *) createOverlay:(NSString *)text forView:(UIView *)view withSize:(CGFloat)size xOffset:(CGFloat)xOffset{
@@ -153,25 +163,31 @@ int TOP;
 
 
 - (void)ownUserChanged:(NSNotification*)notification {
-    ownUser = (NSDictionary <FBGraphUser>*)[notification userInfo];
+//    ownUser = (NSDictionary <FBGraphUser>*)[notification userInfo];
     
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate setOwnId:ownUser.id];
+//    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+//    [appDelegate setOwnUser:(NSDictionary <FBGraphUser>*)[notification userInfo]];
 
     [self getThanksCount];
     
-//    NSLog(@"set own user");
+    NSLog(@"set own user");
 
     
 //    ownId = uid;
 }
 
 -(void)updateCount:(NSString*)count {
+    if(!count || [count isEqualToString:@"null"] || [count isEqualToString:@"(null)"] || [count isEqualToString:@""]) {
+        count = @"0";
+    }
     self.numThanksLabel.text = [NSString stringWithFormat:@"%@ Thanks Received", count];
 }
 
 -(void)getThanksCount {
-//    NSLog(@"getting thanks count");
+    NSLog(@"getting thanks count");
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSDictionary<FBGraphUser> *ownUser = [appDelegate getOwnUser];
+    
     if(ownUser) {
         NSMutableString *url = [[NSMutableString alloc] init];
         [url appendString:@"http://"];
@@ -214,6 +230,55 @@ int TOP;
      selector:@selector(ownUserChanged:)
      name:OwnUserStateChangeNotification
      object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(tryGetSession:)
+     name:TryGetSessionNotification
+     object:nil];
+    
+//    [self getNext:nil];
+    
+//    [self getThanksCount];
+    
+//    [self tryGetSession];
+}
+
+-(void)tryGetSession {
+    NSLog(@"trygetsession");
+//    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        [FBSession openActiveSessionWithReadPermissions:nil
+                                           allowLoginUI:NO
+                                      completionHandler:
+         ^(FBSession *session,
+           FBSessionState state, NSError *error) {
+                 NSLog(@"trygetsession2");
+             if(error) {
+                 
+             } else {
+                 [[FBRequest requestForMe] startWithCompletionHandler:
+                  ^(FBRequestConnection *connection,
+                    NSDictionary<FBGraphUser> *user,
+                    NSError *error) {
+                      if(error) {
+                          
+                      } else {
+                          
+                          AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                          [appDelegate setOwnUser:user];
+                          
+                          [[NSNotificationCenter defaultCenter]
+                           postNotificationName:OwnUserStateChangeNotification
+                           object:nil userInfo:user];
+                          
+//                          [self getThanksCount];
+                      }
+                  }];
+             }
+         }];
+//    } else {
+//        // show login
+//    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -272,14 +337,14 @@ int TOP;
 //    instructionOverlay = [self createOverlay:@" dislike                       like" forView:self.imageView withSize:25];
     
     // Overlay 1
-    yesOverlay = [self createOverlay:@"=)" forView:self.imageView withSize:75 xOffset:80.0];
-    noOverlay = [self createOverlay:@"=(" forView:self.imageView withSize:75 xOffset:140.0];
+    yesOverlay = [self createOverlay:@"=)" forView:self.imageView withSize:125 xOffset:20.0];
+    noOverlay = [self createOverlay:@"=(" forView:self.imageView withSize:125 xOffset:140.0];
     yesOverlay.alpha = 0;
     noOverlay.alpha = 0;
 
     // Overlay 2
-    yesOverlay2 = [self createOverlay:@"=)" forView:self.imageView2 withSize:75 xOffset:80.0];
-    noOverlay2 = [self createOverlay:@"=(" forView:self.imageView2 withSize:75 xOffset:140.0];
+    yesOverlay2 = [self createOverlay:@"=)" forView:self.imageView2 withSize:125 xOffset:20.0];
+    noOverlay2 = [self createOverlay:@"=(" forView:self.imageView2 withSize:125 xOffset:140.0];
     yesOverlay2.alpha = 0;
     noOverlay2.alpha = 0;
     
@@ -324,39 +389,9 @@ int TOP;
     self.userProfileImage.alpha = 0.0;
     self.friendLabel.alpha = 0.0;
     self.friendLabel.numberOfLines = 0;
-    self.thanksButton.alpha = 0.0;
+    self.thanksButton.alpha = 0.0;    
     
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        [FBSession openActiveSessionWithReadPermissions:nil
-                                           allowLoginUI:YES
-                                      completionHandler:
-         ^(FBSession *session,
-           FBSessionState state, NSError *error) {
-             if(error) {
-                 
-             } else {
-                 [[FBRequest requestForMe] startWithCompletionHandler:
-                  ^(FBRequestConnection *connection,
-                    NSDictionary<FBGraphUser> *user,
-                    NSError *error) {
-                      if(error) {
-                          
-                      } else {
-                          [[NSNotificationCenter defaultCenter]
-                           postNotificationName:OwnUserStateChangeNotification
-                           object:nil userInfo:user];
-                      }
-                  }];
-             }
-         }];
-    } else {
-        // show login
-    }
-    
-    
-    if(items.count < 10) {
-        [self getNext:nil];
-    }
+    [self getNext:nil];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -385,7 +420,7 @@ int TOP;
             
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:0.5];
-            [self.imageView setFrame:largeFrame];
+            [self.imageView setFrame:largeFrame isLarge:YES];
             
             [self updateViewCenter:self.imageView];
         } else if([self.view.subviews objectAtIndex:TOP] == self.imageView2) {
@@ -394,7 +429,7 @@ int TOP;
             
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:0.5];
-            [self.imageView2 setFrame:largeFrame];
+            [self.imageView2 setFrame:largeFrame isLarge:YES];
             
             [self updateViewCenter:self.imageView2];
         }
@@ -405,10 +440,10 @@ int TOP;
 
 - (void)makeSmallNow {
     if([self.view.subviews objectAtIndex:TOP] == self.imageView) {
-        [self.imageView setFrame:original];
+        [self.imageView setFrame:original isLarge:NO];
         [self updateViewCenter:self.imageView];
     } else if([self.view.subviews objectAtIndex:TOP] == self.imageView2) {
-        [self.imageView2 setFrame:original];
+        [self.imageView2 setFrame:original isLarge:NO];
         [self updateViewCenter:self.imageView2];
     }
 }
@@ -544,7 +579,14 @@ int TOP;
 }
 
 - (IBAction)getNext:(id)sender {
+    [self getNext];
+}
+
+-(void) getNext {
     NSMutableString *url = [[NSMutableString alloc] init];
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSDictionary<FBGraphUser> *ownUser = [appDelegate getOwnUser];
+    
     if(ownUser) {
         [url appendString:@"http://"];
         [url appendString:SITE_DOMAIN];
@@ -607,6 +649,17 @@ int TOP;
 //                CGContextRelease(context);
                 
                 UIImage *scaledImage = image;
+                
+//                UIImageView* animatedImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+//                animatedImageView.animationImages = [NSArray arrayWithObjects:
+//                                                     [UIImage imageNamed:@"image1.gif"],
+//                                                     [UIImage imageNamed:@"image2.gif"],
+//                                                     [UIImage imageNamed:@"image3.gif"],
+//                                                     [UIImage imageNamed:@"image4.gif"], nil];
+//                animatedImageView.animationDuration = 1.0f;
+//                animatedImageView.animationRepeatCount = 0;
+//                [animatedImageView startAnimating];
+//                [self.view addSubview: animatedImageView];
 
                 if(scaledImage) {
                     if(from) {
@@ -615,6 +668,11 @@ int TOP;
                     } else {
                         [items addObject:scaledImage];
                         [urls addObject:JSON];
+                    }
+                    
+                    if(items.count > 10) {
+                        [items removeLastObject];
+                        [urls removeLastObject];
                     }
 
                 }
@@ -634,6 +692,14 @@ int TOP;
     UIImage *imageToDisplay;
 //    NSLog(@"try to display");
     DraggableView *view = [self.view.subviews objectAtIndex:TOP];
+    BOOL shouldSkip = false;
+    for(int i = 0; i < urls.count; i++) {
+        if([[urls objectAtIndex:i] objectForKey:@"from_id"] != nil) {
+            shouldSkip = true;
+            break;
+        }
+    }
+    
     if(view.image == nil) {
         if(items.count > 0) {
             if((imageToDisplay = [items objectAtIndex:0])) {
@@ -642,11 +708,13 @@ int TOP;
                 
                 [items removeObjectAtIndex:0];
                 [urls removeObjectAtIndex:0];
+                NSLog(@"url:%@", currentURLObject);
                 
                 if((from_id = [urlObject objectForKey:@"from_id"])) {
                     
+                    self.friendLabel.text = @"From your friend!";
                     [UIView beginAnimations:nil context:NULL];
-                    [UIView setAnimationDuration:0.5];
+                    [UIView setAnimationDuration:0.1];
                     self.userProfileImage.alpha = 1.0;
                     self.friendLabel.alpha = 1.0;
                     self.thanksButton.alpha = 1.0;

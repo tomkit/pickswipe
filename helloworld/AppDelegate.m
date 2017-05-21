@@ -11,6 +11,7 @@
 #import "ViewController.h"
 #import "Constants.h"
 
+
 NSString *const SessionStateChangedNotification =
 @"com.tomkit.pickswipe:SessionStateChangedNotification";
 
@@ -20,9 +21,13 @@ NSString *const OwnUserStateChangeNotification =
 NSString *const OpenSessionNotification =
 @"com.tomkit.pickswipe:OpenSessionNotification";
 
+NSString *const TryGetSessionNotification =
+@"com.tomkit.pickswipe:TryGetSessionNotification";
+
 @implementation AppDelegate
 UINavigationController *navController;
-NSString *ownId;
+NSDictionary<FBGraphUser> *ownUser;
+//NSString *ownId;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -102,6 +107,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     // We need to properly handle activation of the application with regards to Facebook Login
     // (e.g., returning from iOS 6.0 Login Dialog or from fast app switching).
     [FBSession.activeSession handleDidBecomeActive];
+    
+        ViewController *viewController = [navController.storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+    [viewController tryGetSession];
+    [viewController keepSwiping];
+//    [viewController getNext];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -109,15 +120,19 @@ void uncaughtExceptionHandler(NSException *exception) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
--(void)setOwnId:(NSString*)oId {
-    ownId = oId;
+-(void)setOwnUser:(NSDictionary<FBGraphUser>*)oUser {
+    ownUser = oUser;
+}
+
+-(NSDictionary<FBGraphUser>*)getOwnUser {
+    return ownUser;
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	NSLog(@"My token is: %@", deviceToken);
     
-    if(ownId) {
+    if(ownUser) {
         // Convert to string
         NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
         deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -127,7 +142,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         [postURL appendString:SITE_DOMAIN];
         [postURL appendString:@"/ritelike/funny/regnotif"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:postURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-        NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:ownId, deviceTokenString, nil] forKeys:[NSArray arrayWithObjects:@"u_id", @"device_id", nil]];
+        NSDictionary *initialLogAsJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:ownUser.id, deviceTokenString, nil] forKeys:[NSArray arrayWithObjects:@"u_id", @"device_id", nil]];
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:initialLogAsJSON options:NSJSONWritingPrettyPrinted error:&error];
         [request setHTTPMethod:@"POST"];
